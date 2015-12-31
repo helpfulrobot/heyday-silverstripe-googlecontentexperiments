@@ -1,7 +1,6 @@
 <?php
 
 use GoogleApi\Client as GoogleClient;
-
 use Heyday\GoogleContentExperiments\Container;
 use Heyday\GoogleContentExperiments\GoogleContentExperiments;
 
@@ -48,12 +47,8 @@ class GoogleContentExperimentsProcessor extends CliController
 
                     $googleVariation->updateVariation($variationID, $variation, $googleExperiment->ID);
                     $googleVariation->write();
-
                 }
-
             }
         }
-
     }
-
 }

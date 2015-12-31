@@ -14,11 +14,12 @@ class GoogleContentExperimentsTest extends \PHPUnit_Framework_TestCase
 
         $this->experiment = $this->getMockBuilder(
             'GoogleApi\Contrib\Experiment'
-        )->setMethods(array('getId'))->getMock();;
+        )->setMethods(array('getId'))->getMock();
+        ;
 
         $this->experiment->expects($this->any())
             ->method('getId')
-            ->will($this->onConsecutiveCalls(1,2,3));
+            ->will($this->onConsecutiveCalls(1, 2, 3));
 
 
         $experiments =  $this->getMockBuilder(
@@ -74,5 +75,4 @@ class GoogleContentExperimentsTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
-
 }

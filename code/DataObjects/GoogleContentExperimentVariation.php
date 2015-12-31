@@ -28,7 +28,5 @@ class GoogleContentExperimentVariation extends DataObject
         $this->Weight = $variationData->getWeight();
         $this->Status = $variationData->getStatus();
         $this->ContentExperimentID = $contentExperimentID;
-
     }
-
 }

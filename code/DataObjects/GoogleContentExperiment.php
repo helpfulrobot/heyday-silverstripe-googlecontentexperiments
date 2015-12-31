@@ -48,7 +48,6 @@ class GoogleContentExperiment extends DataObject
      */
     public function updateExperiment($experimentData)
     {
-
         $this->StartTime = strtotime($experimentData->getStartTime());
         $this->EndTime = strtotime($experimentData->getEndTime());
         $this->Name = $experimentData->getName();
@@ -57,8 +56,5 @@ class GoogleContentExperiment extends DataObject
         $this->Status = $experimentData->getStatus();
         $this->WinnerFound = $experimentData->getWinnerFound();
         $this->TrafficCoverage = $experimentData->getTrafficCoverage();
-
     }
-
-
 }

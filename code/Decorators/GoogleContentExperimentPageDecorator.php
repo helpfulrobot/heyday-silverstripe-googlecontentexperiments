@@ -41,7 +41,6 @@ class GoogleContentExperimentPageDecorator extends DataExtension
             if ($experiment && $experiment->exists() && $experiment->Status == 'RUNNING') {
                 return true;
             }
-
         }
         return false;
     }
@@ -60,11 +59,9 @@ class GoogleContentExperimentPageDecorator extends DataExtension
         $experimentID = false;
 
         if (strpos($args, '_')) {
-
             list($variationID, $experimentID) = explode('_', $args);
 
             $this->setUserVariation($experimentID);
-
         } else {
             $variationID = $args;
             $this->setUserVariation();
@@ -84,32 +81,23 @@ class GoogleContentExperimentPageDecorator extends DataExtension
 
         // rely on the cookie in the first instance
         if ($currentVariation = Cookie::get($storageString)) {
-
             if ($currentVariation == 'v' . $variationID) {
-
                 return true;
-
             }
 
             return false;
-
         }
 
         // otherwise check session
         if ($currentVariation = Session::get($storageString)) {
-
             if ($currentVariation == 'v' . $variationID) {
-
                 return true;
-
             }
 
             return false;
-
         }
 
         return false;
-
     }
 
     /**
@@ -133,7 +121,6 @@ class GoogleContentExperimentPageDecorator extends DataExtension
         }
 
         if ($experiment && $experiment->exists()) {
-
             $storageString = 'utmgce_' . $experiment->ID;
 
             // the variation has already been set, so don't reset it
@@ -143,33 +130,25 @@ class GoogleContentExperimentPageDecorator extends DataExtension
 
             // decide whether to include the user in the test or not
             if (rand(0.0, 1.0) <= $experiment->TrafficCoverage) {
-
                 $variations = $experiment->ContentExperimentVariations();
 
                 $cumulativeWeights = 0;
 
                 if ($variations) {
-
                     foreach ($variations as $variation) {
-
                         if ($variation->Status == 'ACTIVE') {
                             $cumulativeWeights += $variation->Weight;
                         }
 
                         if (rand(0, 1.0) < $cumulativeWeights) {
-
                             $variationID = 'v' . $variation->VariationID;
                             Cookie::set($storageString, $variationID);
                             Session::set($storageString, $variationID);
 
                             return;
-
                         }
-
                     }
-
                 }
-
             }
         }
 
@@ -183,11 +162,9 @@ class GoogleContentExperimentPageDecorator extends DataExtension
      */
     public function getGoogleContentExperimentsData()
     {
-
         $experimentData = new ArrayList();
 
         foreach ($this->getActiveExperimentsIDs() as $experimentID) {
-
             $gce = DataObject::get_by_id('GoogleContentExperiment', $experimentID);
 
             $experiment = new DataObject();
@@ -197,7 +174,6 @@ class GoogleContentExperimentPageDecorator extends DataExtension
         }
 
         return $experimentData;
-
     }
 
     /**
@@ -218,10 +194,9 @@ class GoogleContentExperimentPageDecorator extends DataExtension
 
                 if ($contentExperiment->exists() && $contentExperiment->ID == $experiment->ID) {
                     $activeExperiments[] = $experiment->ID;
-                } else if (DataObject::get('GoogleContentExperiment', "GlobalExperiment = 1 AND ID = $experiment->ID")) {
+                } elseif (DataObject::get('GoogleContentExperiment', "GlobalExperiment = 1 AND ID = $experiment->ID")) {
                     $activeExperiments[] = $experiment->ID;
                 }
-
             }
         }
 
@@ -236,7 +211,6 @@ class GoogleContentExperimentPageDecorator extends DataExtension
      */
     private function getChosenVariation($experimentID)
     {
-
         $variationID = 0;
 
         // set the variation which the user will see
@@ -246,17 +220,11 @@ class GoogleContentExperimentPageDecorator extends DataExtension
 
         // rely on the cookie in the first instance
         if ($currentVariation = Cookie::get($storageString)) {
-
             $variationID = substr($currentVariation, 1, strlen($currentVariation) - 1);
-
-        } else if ($currentVariation = Session::get($storageString)) {
-
+        } elseif ($currentVariation = Session::get($storageString)) {
             $variationID = substr($currentVariation, 1, strlen($currentVariation) - 1);
-
         }
 
         return $variationID;
     }
-
-
 }
